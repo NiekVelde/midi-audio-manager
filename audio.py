@@ -36,14 +36,15 @@ prev_track_button = 43
 # Define user 32
 user32 = ctypes.WinDLL('user32', use_last_error=True)
 wintypes.ULONG_PTR = wintypes.WPARAM
-INPUT_MOUSE    = 0
+INPUT_MOUSE = 0
 INPUT_KEYBOARD = 1
 INPUT_HARDWARE = 2
 KEYEVENTF_EXTENDEDKEY = 0x0001
-KEYEVENTF_KEYUP       = 0x0002
-KEYEVENTF_UNICODE     = 0x0004
-KEYEVENTF_SCANCODE    = 0x0008
+KEYEVENTF_KEYUP = 0x0002
+KEYEVENTF_UNICODE = 0x0004
+KEYEVENTF_SCANCODE = 0x0008
 MAPVK_VK_TO_VSC = 0
+EVENT_HIGH_VALUE = 127
 
 # Define main function
 def main():
@@ -114,9 +115,11 @@ def trigger_midi_event(event):
     elif event_key == play_pause_button:
         press_key(0xb3)
     elif event_key == next_track_button:
-        press_key(0xb0)
+        if event_value == EVENT_HIGH_VALUE:
+            press_key(0xb0)
     elif event_key == prev_track_button:
-        press_key(0xb1)
+        if event_value == EVENT_HIGH_VALUE:
+            press_key(0xb1)
     else:
         print("No event handler found for button: %s" % event_key)
 
